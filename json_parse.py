@@ -20,8 +20,6 @@ def recursive_find(obj, value, found, type, par):
         for item in obj:
             recursive_find(item, value, found, type, par)
     return found
-    #print(f)
-    #return f
 
 
 def recursive_post(obj, value, res, lvl, type):
