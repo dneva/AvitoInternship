@@ -1,0 +1,38 @@
+{
+	"params": [{
+		"id": 73,
+		"title": "unitId",
+		"value": "",
+		"values": [{
+			"id": 345,
+			"title": "SellerX",
+			"params": [ {
+				"id": 230,
+				"title": "Feature",
+				"value": "",
+				"values": [{
+					"id": 4931,
+					"title": "Publish item"
+				}, {
+					"id": 4932,
+					"title": "Edit item"
+				}]
+			}]
+		}, {
+			"id": 346,
+			"title": "Trust&Safety",
+			"params": [ {
+				"id": 261,
+				"title": "Feature",
+				"value": "",
+				"values": [{
+					"id": 4894,
+					"title": "Authorize user"
+				}, {
+					"id": 4896,
+					"title": "Restore password"
+				}]
+			}]
+		}]
+	}]
+}

@@ -3,24 +3,25 @@ import sys
 from json.decoder import JSONDecodeError
 
 
-def recursive_find(obj, value, type, par):
+def recursive_find(obj, value, found, type, par):
     if isinstance(obj, dict):
         if obj.get('values') is not None:
             if obj['id'] == value['id']:
-                recursive_find(obj['values'], value, type='value', par=1)
+                recursive_find(obj['values'], value, found,type='value', par=1)
             else:
-                recursive_find(obj['values'], value, type='value', par=0)
+                recursive_find(obj['values'], value, found, type='value', par=0)
         elif obj.get('params') is not None:
-            recursive_find(obj['params'], value, type='param', par=0)
-        if obj['id'] == value['id'] and obj['value'] == value['value'] and type == 'param':
-            return value
-        elif par == 1 and obj['id'] == value['value'] and type == 'value':
-            value['value'] = obj['title']
-            return value
+            recursive_find(obj['params'], value, found, type='param', par=0)
+        elif obj['id'] == value['id'] and type == 'param':
+            found['value'] = value['value']
+        if par == 1 and obj['id'] == value['value'] and type == 'value':
+            found['value'] = obj['title']
     elif isinstance(obj, list):
         for item in obj:
-            recursive_find(item, value, type, par)
-    return value
+            recursive_find(item, value, found, type, par)
+    return found
+    #print(f)
+    #return f
 
 
 def recursive_post(obj, value, res, lvl, type):
@@ -52,8 +53,10 @@ def json_parse(struct, val):
     else:
         structure_values = structure['params']
         for value in values['values']:
-            new_value = recursive_find(structure_values, value, type='param', par=0)
-            structure_values = recursive_post(structure_values, new_value, res=[], lvl=0, type='param')
+            found = value.copy()
+            found['value']=""
+            value = recursive_find(structure_values, value, found, type='param', par=0)
+            structure_values = recursive_post(structure_values, value, res=[], lvl=0, type='param')
         structure_values = {'params': structure_values}
         with open("StructureWithValues.json", "w") as structure_values_file:
             json.dump(structure_values, structure_values_file, ensure_ascii=False, indent=4)
